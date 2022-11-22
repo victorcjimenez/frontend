@@ -10,14 +10,13 @@ export class ViewDataComponent {
   @Input() providers: Array<LabourStats> = [];
   @Input() directContractors: LabourStats[] = [];
   @Input() total: LabourStats[] = [];
+  @Input() directProv: LabourStats[] = [];
 
-  key: string = '';
-  reverse: boolean = false;
+  showDirectFirst: boolean = true;
 
   constructor() {}
 
-  public sort(key: string) {
-    this.key = key;
-    this.reverse = !this.reverse;
+  public updateTable(show: boolean) {
+    this.showDirectFirst = show;
   }
 }

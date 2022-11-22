@@ -8,10 +8,10 @@ import { LabourCosts, LabourStats } from 'src/app/model/labourCosts.interfaces';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  labourCostsData: any = [];
   providers: LabourStats[] = [];
   directContractors: LabourStats[] = [];
   total: LabourStats[] = [];
+  directProv: LabourStats[] = [];
 
   constructor(private apiService: ApiService) {}
 
@@ -21,10 +21,10 @@ export class HomeComponent implements OnInit {
 
   private getTableData() {
     this.apiService.getLabourCosts().subscribe((res: LabourCosts[]) => {
-      this.labourCostsData = res[0];
-      this.providers = this.labourCostsData.providers;
-      this.directContractors = this.labourCostsData.directContractors;
-      this.total = this.labourCostsData.total;
+      this.directProv = res[0].providers.concat(res[0].directContractors);
+      this.providers = res[0].providers;
+      this.directContractors = res[0].directContractors;
+      this.total = res[0].total;
     });
   }
 }
