@@ -1,0 +1,62 @@
+.view-data-table {
+  margin-bottom: 3rem;
+  text-align: center;
+  &-head {
+    font-size: 0.75rem;
+    font-weight: semi-bold;
+    color: #dfe1e2;
+
+    &-col {
+      padding: 1rem;
+      cursor: pointer;
+    }
+    &-col:hover {
+      background-color: #dfe1e2;
+      color: #7c7f82;
+    }
+  }
+
+  &-body {
+    font-size: 14px;
+    font-weight: bold;
+    color: #afb4b6;
+    margin: auto;
+
+    td {
+      padding: 0.75rem;
+    }
+
+    &-name {
+      text-align: start;
+    }
+
+    &-worker {
+      font-size: 18px;
+      &-labour {
+        border-right: #dfe1e2 solid;
+        text-align: end;
+      }
+    }
+
+    &-border {
+      border-right: #dfe1e2 solid;
+    }
+
+    &-gross {
+      text-align: end;
+      font-size: 20px;
+      font-weight: 700;
+      color: #7c7f82;
+    }
+
+    &-total {
+      margin-top: 48px;
+      font-weight: 700;
+      color: #7c7f82;
+
+      &-name {
+        text-align: end;
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+.com-header {
+  top: 0;
+  padding: 0.75rem 2rem 0.75rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  background-color: #84a6d3;
+
+  &-link {
+    cursor: pointer;
+
+    &-center {
+      font-weight: bold;
+      color: white;
+    }
+  }
+
+  &-right {
+    gap: 1.25rem;
+    margin: auto 0 auto 0;
+  }
+}

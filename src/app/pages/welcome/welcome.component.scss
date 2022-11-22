@@ -1,0 +1,41 @@
+// .color-gradient {
+//   background-image: linear-gradient(
+//     45deg,
+//     #4390ab 0%,
+//     #85ffbd 50%,
+//     #fffb7d 100%
+//   );
+// }
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap');
+
+.page-welcome {
+  text-align: center;
+  &-headline {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 70px;
+    font-weight: 900;
+    word-break: keep-all;
+
+    &-subline {
+      font-size: 50px;
+      font-weight: 700;
+    }
+    @media screen and (max-width: 768px) {
+      font-size: 50px;
+    }
+  }
+
+  &-show {
+    margin-top: 24px;
+
+    &-button {
+      cursor: pointer;
+      border: none;
+      border-radius: 12px;
+      padding: 16px 32px;
+      background-color: #84a6d3;
+      color: #fff;
+      font-size: 24px;
+    }
+  }
+}
