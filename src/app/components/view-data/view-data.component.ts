@@ -11,12 +11,26 @@ export class ViewDataComponent {
   @Input() directContractors: LabourStats[] = [];
   @Input() total: LabourStats[] = [];
   @Input() directProv: LabourStats[] = [];
-
+  isDesc: boolean = false;
+  column: string = 'name';
   showDirectFirst: boolean = true;
 
   constructor() {}
 
   public updateTable(show: boolean) {
     this.showDirectFirst = show;
+  }
+
+  public roundOut(value: number) {
+    return Math.round(value / 100);
+  }
+
+  public updateTotalName(field: string) {
+    return field.toUpperCase().substring(0, field.length - 5);
+  }
+
+  public updateArrow(col: string) {
+    this.isDesc = !this.isDesc;
+    this.column = col;
   }
 }

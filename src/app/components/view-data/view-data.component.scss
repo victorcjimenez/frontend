@@ -1,62 +1,169 @@
-.view-data-table {
-  margin-bottom: 3rem;
-  text-align: center;
-  &-head {
-    font-size: 0.75rem;
-    font-weight: semi-bold;
-    color: #dfe1e2;
-
-    &-col {
-      padding: 1rem;
-      cursor: pointer;
-    }
-    &-col:hover {
-      background-color: #dfe1e2;
-      color: #7c7f82;
-    }
+.view-data {
+  &-headline {
+    font-weight: 300;
+    color: #878a8c;
+    margin-bottom: 0;
   }
 
-  &-body {
-    font-size: 14px;
-    font-weight: bold;
-    color: #afb4b6;
-    margin: auto;
+  &-table {
+    margin-bottom: 3rem;
+    text-align: center;
+    border-collapse: collapse;
 
-    td {
-      padding: 0.75rem;
-    }
+    &-head {
+      font-size: 12px;
+      color: #c5c8ca;
 
-    &-name {
-      text-align: start;
-    }
-
-    &-worker {
-      font-size: 18px;
-      &-labour {
-        border-right: #dfe1e2 solid;
+      &-col {
+        padding: 24px 0 24px 0;
+        cursor: pointer;
         text-align: end;
+        vertical-align: top;
+        font-weight: 400;
+      }
+
+      &-col:nth-child(-n + 3) {
+        text-align: start;
+      }
+
+      &-col:nth-last-child(2) {
+        padding-right: 20px;
+      }
+
+      &-col:hover {
+        background-color: #dfe1e2;
+        color: #7c7f82;
       }
     }
 
-    &-border {
-      border-right: #dfe1e2 solid;
-    }
-
-    &-gross {
+    &-body {
+      font-size: 12px;
+      color: #afb3b6;
+      margin: auto;
       text-align: end;
-      font-size: 20px;
-      font-weight: 700;
-      color: #7c7f82;
-    }
-
-    &-total {
-      margin-top: 48px;
-      font-weight: 700;
-      color: #7c7f82;
 
       &-name {
+        font-weight: 600;
+        padding: 10px 20px 10px 0;
+        width: 155px;
+        text-align: left;
+      }
+
+      &-worker {
+        color: #c0c4c6;
+        font-size: 26px;
+        font-weight: 400;
+        padding: 10px 0 10px 0;
+        width: 100px;
+        text-align: left;
+      }
+
+      &-complianceStats {
+        font-size: 17px;
+        font-weight: 600;
+        color: #b9bdbf;
+        padding: 10px 0 10px 0;
+        width: 100px;
+        text-align: left;
+      }
+
+      &-gross {
+        padding: 10px 0 10px 0;
+        width: 155px;
+        font-size: 26px;
+        color: #909395;
+      }
+
+      &-payrollAdminTotal {
+        padding: 10px 0 10px 0;
+        width: 115px;
+        font-size: 23px;
+        color: #c4c7c9;
+      }
+
+      &-labour {
+        padding: 10px 20px 10px 0;
+        width: 150px;
+        font-size: 26px;
+        color: #afb3b6;
+      }
+
+      &-worker-force {
+        padding: 10px 0 10px 10px;
+        font-size: 17px;
+        font-weight: 600;
+        color: #b9bdbf;
+      }
+
+      &-total {
+        color: #535659;
         text-align: end;
+
+        &-name {
+          padding-right: 40px;
+          color: #535659;
+          font-weight: 600;
+          font-size: 12px;
+        }
+
+        &-worker {
+          text-align: left;
+          color: #65676a;
+          font-size: 26px;
+          font-weight: 400;
+          padding: 10px 0 10px 0;
+        }
+
+        &-complianceStats {
+          text-align: left;
+          font-size: 17px;
+          font-weight: 600;
+          color: #959799;
+          padding: 10px 0 10px 0;
+        }
+
+        &-gross {
+          padding: 10px 0 10px 0;
+          font-size: 26px;
+          color: #909395;
+        }
+
+        &-payrollAdminTotal {
+          padding: 10px 0 10px 0;
+          font-size: 23px;
+          color: #909395;
+        }
+
+        &-labour {
+          padding: 10px 20px 10px 0;
+          font-size: 26px;
+          color: #909395;
+        }
+
+        &-worker-force {
+          padding: 10px 0 10px 20px;
+          font-size: 17px;
+          font-weight: 600;
+          color: #959799;
+        }
       }
     }
   }
+}
+
+.border-right {
+  border-right: #dfe1e2 solid;
+  border-width: thin;
+}
+
+.pointer.active.desc:after {
+  content: '^';
+  font-weight: bold;
+  color: #d18f8f;
+}
+
+.pointer.active.asc:after {
+  content: '˅';
+  align-items: center;
+  color: #d18f8f;
 }

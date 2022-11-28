@@ -1,221 +1,274 @@
-<h1>Labour cost report</h1>
+<div class="view-data">
+  <h1 class="view-data-headline">Labour cost report</h1>
+  <table class="view-data-table">
+    <thead class="view-data-table-head">
+      <tr>
+        <th
+          class="view-data-table-head-col"
+          scope="col"
+          (click)="updateTable(true)"
+          [appSort]="providers"
+          data-order="desc"
+          data-name="name"
+          (click)="updateArrow('name')"
+          [ngClass]="{
+            pointer: true,
+            active: column == 'name',
+            desc: isDesc,
+            asc: !isDesc
+          }">
+          PAYROLL<br />PROVIDER
+        </th>
+        <th
+          class="view-data-table-head-col"
+          scope="col"
+          (click)="updateTable(false)"
+          [appSort]="directProv"
+          data-order="asc"
+          data-name="workerCount"
+          (click)="updateArrow('workerCount')"
+          [ngClass]="{
+            pointer: true,
+            active: column == 'workerCount',
+            desc: isDesc,
+            asc: !isDesc
+          }">
+          WORKER
+        </th>
+        <th
+          class="view-data-table-head-col"
+          scope="col"
+          (click)="updateTable(false)"
+          [appSort]="directProv"
+          data-order="asc"
+          data-name="grossPayTotal"
+          (click)="updateArrow('complianceStats')"
+          [ngClass]="{
+            pointer: true,
+            active: column == 'complianceStats',
+            desc: isDesc,
+            asc: !isDesc
+          }">
+          COMPLIANCE<br />SCORE
+        </th>
+        <th
+          class="view-data-table-head-col"
+          scope="col"
+          (click)="updateTable(false)"
+          [appSort]="directProv"
+          data-order="asc"
+          data-name="grossPayTotal"
+          (click)="updateArrow('grossPayTotal')"
+          [ngClass]="{
+            pointer: true,
+            active: column == 'grossPayTotal',
+            desc: isDesc,
+            asc: !isDesc
+          }">
+          GROSS<br />PAY (&pound;)
+        </th>
+        <th
+          class="view-data-table-head-col"
+          scope="col"
+          (click)="updateTable(false)"
+          [appSort]="directProv"
+          data-order="asc"
+          data-name="payrollAdminTotal"
+          (click)="updateArrow('payrollAdminTotal')"
+          [ngClass]="{
+            pointer: true,
+            active: column == 'payrollAdminTotal',
+            desc: isDesc,
+            asc: !isDesc
+          }">
+          PAYROLL<br />ADMIN (&pound;)
+        </th>
+        <th
+          class="view-data-table-head-col"
+          scope="col"
+          (click)="updateTable(false)"
+          [appSort]="directProv"
+          data-order="asc"
+          data-name="labourCostTotal"
+          (click)="updateArrow('labourCostTotal')"
+          [ngClass]="{
+            pointer: true,
+            active: column == 'labourCostTotal',
+            desc: isDesc,
+            asc: !isDesc
+          }">
+          LABOUR<br />COST (&pound;)
+        </th>
+        <th
+          class="view-data-table-head-col"
+          scope="col"
+          (click)="updateTable(false)"
+          [appSort]="directProv"
+          data-order="asc"
+          data-name="labourCostTotal"
+          (click)="updateArrow('workforce')"
+          [ngClass]="{
+            pointer: true,
+            active: column == 'workforce',
+            desc: isDesc,
+            asc: !isDesc
+          }">
+          WORK-<br />FORCE
+        </th>
+      </tr>
+    </thead>
+    <tbody class="view-data-table-body">
+      <ng-container *ngFor="let directContract of directContractors">
+        <ng-container *ngFor="let fields of total">
+          <tr *ngIf="showDirectFirst">
+            <td class="view-data-table-body-name">
+              {{ directContract?.name }}
+            </td>
+            <td class="view-data-table-body-worker">
+              {{ directContract?.workerCount }}
+            </td>
+            <td class="view-data-table-body-complianceStats border-right">
+              <span *ngIf="directContract?.complianceStats?.Total !== null">
+                {{ directContract?.complianceStats?.Total | number: '1.0-0' }}%
+              </span>
+              <span *ngIf="directContract?.complianceStats?.Total == null">
+                0%
+              </span>
+            </td>
+            <td class="view-data-table-body-gross">
+              {{ roundOut(directContract?.grossPayTotal!) | number }}
+            </td>
+            <td class="view-data-table-body-payrollAdminTotal">
+              <span *ngIf="directContract?.payrollAdminTotal !== 0">{{
+                directContract?.payrollAdminTotal
+              }}</span>
+              <span *ngIf="directContract?.payrollAdminTotal == 0">-</span>
+            </td>
+            <td class="view-data-table-body-labour border-right">
+              {{ roundOut(directContract?.labourCostTotal!) | number }}
+            </td>
+            <td class="view-data-table-body-worker-force">
+              {{
+                (
+                  (directContract?.workerCount! / fields?.workerCount!) *
+                  100
+                ).toFixed(1)
+              }}%
+            </td>
+          </tr>
+          <br />
 
-<table class="view-data-table">
-  <thead class="view-data-table-head">
-    <tr>
-      <th
-        class="view-data-table-head-col"
-        scope="col"
-        (click)="updateTable(true)"
-        [appSort]="providers"
-        data-order="desc"
-        data-name="name">
-        PAYROLL PROVIDER
-      </th>
-      <th
-        class="view-data-table-head-col"
-        scope="col"
-        (click)="updateTable(false)"
-        [appSort]="directProv"
-        data-order="desc"
-        data-name="workerCount">
-        WORKER
-      </th>
-      <th
-        class="view-data-table-head-col"
-        scope="col"
-        (click)="updateTable(false)"
-        [appSort]="directProv"
-        data-order="desc"
-        data-name="grossPayTotal">
-        COMPLIANCE SCORE
-      </th>
-      <th
-        class="view-data-table-head-col"
-        scope="col"
-        (click)="updateTable(false)"
-        [appSort]="directProv"
-        data-order="desc"
-        data-name="grossPayTotal">
-        GROSS PAY
-      </th>
-      <th
-        class="view-data-table-head-col"
-        scope="col"
-        (click)="updateTable(false)"
-        [appSort]="directProv"
-        data-order="desc"
-        data-name="payrollAdminTotal">
-        PAYROLL ADMIN (&pound;)
-      </th>
-      <th
-        class="view-data-table-head-col"
-        scope="col"
-        (click)="updateTable(false)"
-        [appSort]="directProv"
-        data-order="desc"
-        data-name="labourCostTotal">
-        LABOUR COST (&pound;)
-      </th>
-      <th
-        class="view-data-table-head-col"
-        scope="col"
-        (click)="updateTable(false)"
-        [appSort]="directProv"
-        data-order="desc"
-        data-name="labourCostTotal">
-        WORK FORCE
-      </th>
-    </tr>
-  </thead>
-  <tbody class="view-data-table-body">
-    <ng-container *ngFor="let directContract of directContractors">
-      <ng-container *ngFor="let fields of total">
-        <tr *ngIf="showDirectFirst">
-          <td class="view-data-table-body-name">
-            {{ directContract?.name }}
-          </td>
-          <td class="view-data-table-body-worker">
-            {{ directContract?.workerCount }}
-          </td>
-          <td class="view-data-table-body-border">
-            <span *ngIf="directContract?.complianceStats?.Total !== null">
-              {{ directContract?.complianceStats?.Total | number: '1.0-0' }}%
-            </span>
-            <span *ngIf="directContract?.complianceStats?.Total == null">
-              0%
-            </span>
-          </td>
-          <td class="view-data-table-body-gross">
-            {{ directContract?.grossPayTotal | number }}
-          </td>
-          <td>
-            <span *ngIf="directContract?.payrollAdminTotal !== 0">{{
-              directContract?.payrollAdminTotal
-            }}</span>
-            <span *ngIf="directContract?.payrollAdminTotal == 0">-</span>
-          </td>
-          <td class="view-data-table-body-worker-labour">
-            {{ directContract?.labourCostTotal | number }}
-          </td>
-          <td>
-            {{
-              (
-                (directContract?.labourCostTotal! / fields?.labourCostTotal!) *
-                100
-              ).toFixed(2)
-            }}%
-          </td>
-        </tr>
-        <br />
-
-        <ng-container *ngIf="showDirectFirst">
-          <ng-container *ngFor="let provider of providers">
-            <tr>
-              <td class="view-data-table-body-name">{{ provider?.name }}</td>
-              <td class="view-data-table-body-worker">
-                {{ provider?.workerCount }}
-              </td>
-              <td class="view-data-table-body-border">
-                <span *ngIf="provider?.complianceStats?.Total !== null">
-                  {{ provider?.complianceStats?.Total | number: '1.0-0' }}%
-                </span>
-                <span *ngIf="provider?.complianceStats?.Total == null">
-                  0%
-                </span>
-              </td>
-              <td class="view-data-table-body-gross">
-                {{ provider?.grossPayTotal | number }}
-              </td>
-              <td>
-                <span *ngIf="provider?.payrollAdminTotal !== 0">{{
-                  provider?.payrollAdminTotal
-                }}</span>
-                <span *ngIf="provider?.payrollAdminTotal == 0">-</span>
-              </td>
-              <td class="view-data-table-body-worker-labour">
-                {{ provider?.labourCostTotal | number }}
-              </td>
-              <td>
-                {{
-                  (
-                    (provider?.labourCostTotal! / fields?.labourCostTotal!) *
-                    100
-                  ).toFixed(2)
-                }}%
-              </td>
-            </tr>
+          <ng-container *ngIf="showDirectFirst">
+            <ng-container *ngFor="let provider of providers">
+              <tr>
+                <td class="view-data-table-body-name">{{ provider?.name }}</td>
+                <td class="view-data-table-body-worker">
+                  {{ provider?.workerCount }}
+                </td>
+                <td class="view-data-table-body-complianceStats border-right">
+                  <span *ngIf="provider?.complianceStats?.Total !== null">
+                    {{ provider?.complianceStats?.Total | number: '1.0-0' }}%
+                  </span>
+                  <span *ngIf="provider?.complianceStats?.Total == null">
+                    0%
+                  </span>
+                </td>
+                <td class="view-data-table-body-gross">
+                  {{ roundOut(provider?.grossPayTotal!) | number }}
+                </td>
+                <td class="view-data-table-body-payrollAdminTotal">
+                  <span *ngIf="provider?.payrollAdminTotal !== 0">{{
+                    provider?.payrollAdminTotal
+                  }}</span>
+                  <span *ngIf="provider?.payrollAdminTotal == 0">-</span>
+                </td>
+                <td class="view-data-table-body-labour border-right">
+                  {{ roundOut(provider?.labourCostTotal!) | number }}
+                </td>
+                <td class="view-data-table-body-worker-force">
+                  {{
+                    (
+                      (provider?.workerCount! / fields?.workerCount!) *
+                      100
+                    ).toFixed(1)
+                  }}%
+                </td>
+              </tr>
+            </ng-container>
           </ng-container>
-        </ng-container>
 
-        <ng-container *ngIf="!showDirectFirst">
-          <ng-container *ngFor="let dirProv of directProv">
-            <tr>
-              <td class="view-data-table-body-name">{{ dirProv?.name }}</td>
-              <td class="view-data-table-body-worker">
-                {{ dirProv?.workerCount }}
-              </td>
-              <td class="view-data-table-body-border">
-                <span *ngIf="dirProv?.complianceStats?.Total !== null">
-                  {{ dirProv?.complianceStats?.Total | number: '1.0-0' }}%
-                </span>
-                <span *ngIf="dirProv?.complianceStats?.Total == null">
-                  0%
-                </span>
-              </td>
-              <td class="view-data-table-body-gross">
-                {{ dirProv?.grossPayTotal | number }}
-              </td>
-              <td>
-                <span *ngIf="dirProv?.payrollAdminTotal !== 0">{{
-                  dirProv?.payrollAdminTotal
-                }}</span>
-                <span *ngIf="dirProv?.payrollAdminTotal == 0">-</span>
-              </td>
-              <td class="view-data-table-body-worker-labour">
-                {{ dirProv?.labourCostTotal | number }}
-              </td>
-              <td>
-                {{
-                  (
-                    (dirProv?.labourCostTotal! / fields?.labourCostTotal!) *
-                    100
-                  ).toFixed(2)
-                }}%
-              </td>
-            </tr>
+          <ng-container *ngIf="!showDirectFirst">
+            <ng-container *ngFor="let dirProv of directProv">
+              <tr>
+                <td class="view-data-table-body-name">{{ dirProv?.name }}</td>
+                <td class="view-data-table-body-worker">
+                  {{ dirProv?.workerCount }}
+                </td>
+                <td class="view-data-table-body-complianceStats border-right">
+                  <span *ngIf="dirProv?.complianceStats?.Total !== null">
+                    {{ dirProv?.complianceStats?.Total | number: '1.0-0' }}%
+                  </span>
+                  <span *ngIf="dirProv?.complianceStats?.Total == null">
+                    0%
+                  </span>
+                </td>
+
+                <td class="view-data-table-body-gross">
+                  {{ roundOut(dirProv?.grossPayTotal!) | number }}
+                </td>
+                <td class="view-data-table-body-payrollAdminTotal">
+                  <span *ngIf="dirProv?.payrollAdminTotal !== 0">{{
+                    dirProv?.payrollAdminTotal
+                  }}</span>
+                  <span *ngIf="dirProv?.payrollAdminTotal == 0">-</span>
+                </td>
+                <td class="view-data-table-body-labour border-right">
+                  {{ roundOut(dirProv?.labourCostTotal!) | number }}
+                </td>
+                <td class="view-data-table-body-worker-force">
+                  {{
+                    (
+                      (dirProv?.workerCount! / fields?.workerCount!) *
+                      100
+                    ).toFixed(1)
+                  }}%
+                </td>
+              </tr>
+            </ng-container>
           </ng-container>
+          <br /><br />
+          <tr class="view-data-table-body-total">
+            <td class="view-data-table-body-total-name">
+              {{ updateTotalName(fields?.name!) }}
+            </td>
+            <td class="view-data-table-body-total-worker">
+              {{ fields?.workerCount }}
+            </td>
+            <td class="view-data-table-body-total-complianceStats border-right">
+              {{ fields?.complianceStats?.Total | number: '1.0-0' }}%
+            </td>
+            <td class="view-data-table-body-total-gross">
+              {{ roundOut(fields?.grossPayTotal!) | number }}
+            </td>
+            <td class="view-data-table-body-total-payrollAdminTotal">
+              <span *ngIf="fields?.payrollAdminTotal !== 0">{{
+                fields?.payrollAdminTotal
+              }}</span>
+              <span *ngIf="fields?.payrollAdminTotal == 0">-</span>
+            </td>
+            <td class="view-data-table-body-total-labour border-right">
+              {{ roundOut(fields?.labourCostTotal!) | number }}
+            </td>
+            <td class="view-data-table-body-total-worker-force">
+              {{
+                ((fields?.workerCount! / fields?.workerCount!) * 100).toFixed(
+                  1
+                )
+              }}%
+            </td>
+          </tr>
         </ng-container>
-
-        <br />
-        <tr class="view-data-table-body-total">
-          <td class="view-data-table-body-total-name">{{ fields?.name }}</td>
-          <td class="view-data-table-body-worker">
-            {{ fields?.workerCount }}
-          </td>
-          <td>{{ fields?.complianceStats?.Total | number: '1.0-0' }}%</td>
-          <td class="view-data-table-body-gross">
-            {{ fields?.grossPayTotal | number }}
-          </td>
-          <td>
-            <span *ngIf="fields?.payrollAdminTotal !== 0">{{
-              fields?.payrollAdminTotal
-            }}</span>
-            <span *ngIf="fields?.payrollAdminTotal == 0">-</span>
-          </td>
-          <td class="view-data-table-body-worker-labour">
-            {{ fields?.labourCostTotal | number }}
-          </td>
-          <td>
-            {{
-              (
-                (fields?.labourCostTotal! / fields?.labourCostTotal!) *
-                100
-              ).toFixed(2)
-            }}%
-          </td>
-        </tr>
       </ng-container>
-    </ng-container>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>

@@ -12,8 +12,8 @@ export class OrderByDirective {
   OrderData() {
     const orderBy = new OrderBy();
     const elem = this.targetElem.nativeElement;
-    const order = elem.getAttribute('data-order');
-    const property = elem.getAttribute('data-name');
+    const order = elem?.getAttribute('data-order');
+    const property = elem?.getAttribute('data-name');
 
     this.appSort?.sort(orderBy.startSort(property, order));
     order === 'desc'
